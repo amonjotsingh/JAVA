@@ -3,7 +3,12 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-
+        Comparator<Dish> c = new Comparator<Dish>() {
+            @Override
+            public int compare(Dish o1, Dish o2) {
+                return o1.compareTo(o2);
+            }
+        };
         List<Integer> nums = List.of(1, 5, 19, 12, 14, 20);
         nums.stream().reduce(0, (a, b) -> a + b);
 
@@ -35,12 +40,18 @@ public class Main {
         dishes.stream().filter(d -> d.getDishType() == DishType.NON_VEG).forEach(System.out::println);
 
         Optional<Double> max = dishes.stream()
-                .map(d -> d.getCost()).max(Comparator.naturalOrder());
+                .map(d -> d.getCost())
+                .max(Comparator.naturalOrder());
         max.ifPresent(System.out::println);
 
-        List<String> ingredientsList = dishes.stream().flatMap(d -> d.getIngredients().stream()).distinct().collect(Collectors.toList());
+        List<String> ingredientsList = dishes.stream()
+                .flatMap(d -> d.getIngredients().stream())
+                .distinct()
+                .collect(Collectors.toList());
         System.out.println(ingredientsList);
+
     }
 
-
 }
+
+
